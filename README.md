@@ -1,8 +1,7 @@
 # Paul Graham Essays RAG System
 
 A lightweight RAG system for search and analysis of essays on https://www.paulgraham.com/articles.html
-
-
+It provides an API for chat  
 
 ## Setup
 
@@ -33,3 +32,9 @@ It will do the following:
 * Divide each essay into chunk
 * Run embedding on each chunk
 * Store content and embedding of each chunk in Document_chunks
+
+## TODO
+* Compare embedding models. Try smaller dimensions.
+* Create trigger(s) for scraping. It can either be a schedule, or a "refresh" request from UI.
+* Improve performance when chunking and Embedding
+
