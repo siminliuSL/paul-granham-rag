@@ -1,15 +1,17 @@
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
-from db import supabase
-import traceback
+from supabase import create_client
 
-# Load environment variables
 load_dotenv()
 
-# Initialize OpenAI client at module level
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 print("OpenAI client initialized!")
+
+supabase = create_client(
+    os.getenv("SUPABASE_URL"),
+    os.getenv("SUPABASE_KEY")
+)
 
 def get_relevant_chunks(query: str, match_count: int = 3):
     try:
@@ -81,17 +83,22 @@ def chat_with_model(user_input: str):
                 print(f"Error formatting chunk: {str(e)}")
                 continue
 
+        context_text = "\n\n".join(context)
         system_input = (
             """
             You're an AI assistant who answers questions based on Paul Graham's essays. You're a chat bot, so keep your replies succinct.
-            You're only allowed to use the documents below to answer the question. f"\n\n{context_text}\n\n"
+            You're only allowed to use the documents below to answer the question:
+            
+            {context_text}
+            
             If the question isn't related to these documents, say:  "Sorry, I couldn't find any information on that."
             If the information isn't available in the below documents, say: "Sorry, I couldn't find any information on that."   
             Do not go off topic.
            """
-        )
+        ).format(context_text=context_text)
         
         try:
+            print("Sending request to OpenAI for chat completion...")
             response = client.chat.completions.create(
                 model="gpt-4-turbo-preview",
                 messages=[
