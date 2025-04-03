@@ -1,22 +1,35 @@
-from db import supabase
+import os
+from dotenv import load_dotenv
+from supabase import create_client, Client
 
-def test_connection():
+def test_db_connection():
+    # Load environment variables
+    load_dotenv()
+    
+    # Get Supabase credentials
+    supabase_url = os.getenv("SUPABASE_URL")
+    supabase_key = os.getenv("SUPABASE_KEY")
+    
+    print(f"Testing connection to Supabase at: {supabase_url}")
+    
     try:
-        # Try to query the documents table
-        result = supabase.table("documents").select("count").execute()
-        print("✅ Successfully connected to documents table!")
-        print(f"Number of documents: {result.data[0]['count'] if result.data else 0}")
+        # Initialize Supabase client
+        supabase: Client = create_client(supabase_url, supabase_key)
         
-        # Try to query the document_chunks table
-        result = supabase.table("document_chunks").select("count").execute()
-        print("✅ Successfully connected to document_chunks table!")
-        print(f"Number of chunks: {result.data[0]['count'] if result.data else 0}")
+        # Try to query a simple table
+        result = supabase.table('documents').select('count').limit(1).execute()
         
-        return True
+        if result.data is not None:
+            print("✅ Database connection successful!")
+            print(f"Found {len(result.data)} documents")
+            return True
+        else:
+            print("❌ Database connection failed: No data returned")
+            return False
+            
     except Exception as e:
-        print("❌ Failed to connect to Supabase tables:")
-        print(f"Error: {str(e)}")
+        print(f"❌ Database connection failed: {str(e)}")
         return False
 
 if __name__ == "__main__":
-    test_connection() 
+    test_db_connection() 
