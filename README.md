@@ -37,4 +37,6 @@ It will do the following:
 * Compare embedding models. Try smaller dimensions.
 * Create trigger(s) for scraping. It can either be a schedule, or a "refresh" request from UI.
 * Improve performance when chunking and Embedding
+* Add a trigger to the Documents table and only run chunking and embedding when a new row is inserted into Documents.
+* Handle duplicates (do not process the same document twice)
 
