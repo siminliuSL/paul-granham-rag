@@ -1,8 +1,3 @@
-# Virtual Environment
-venv/
-env/
-.env/
-
 # Python
 __pycache__/
 *.py[cod]
@@ -25,8 +20,22 @@ wheels/
 .installed.cfg
 *.egg
 
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
 # IDE
 .idea/
 .vscode/
 *.swp
-*.swo 
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db 
