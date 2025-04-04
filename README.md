@@ -10,9 +10,9 @@ pip install -r requirements.txt
 
 2. Create .env file
    
-     OPENAI_API_KEY=
-     SUPABASE_KEY=
-     SUPABASE_URL=
+     OPENAI_API_KEY=\
+     SUPABASE_KEY=\
+     SUPABASE_URL=\
      DOCUMENT_URL=https://www.paulgraham.com/articles.html
      
 3. Run the migraion scripts to create
