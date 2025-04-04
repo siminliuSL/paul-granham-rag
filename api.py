@@ -27,7 +27,9 @@ class ChatResponse(BaseModel):
 @app.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
     try:
+        print(f"Chat invoked")
         response = chat_with_model(request.message)
+        #response = request.message
         return ChatResponse(response=response)
     except Exception as e:
         print(f"Error in chat endpoint: {str(e)}")
